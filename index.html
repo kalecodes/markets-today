@@ -4,11 +4,76 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Markets Today</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Market Mockup</title>
 </head>
-<body>
-    
+<body class="container">
+    <header class="row header">
+        <h1>Market Mockup</h1>
+        <p>The easy way to compare crypto</p>
+    </header>
+
+    <section class="row search-section">
+        <div class="four columns">
+            <div class="search-box">
+                <h3>Crypto Search</h3>
+                <label for="searchEl">Enter the name of a cryptocurrency</label>
+                <input type="text" id="searchEl"/>
+                <button id="submitBtn" class="button-primary" type="submit">Search</button>
+            </div>
+            <div class="history-box">
+                <h4>Search History</h4> 
+                <ul id="historyList">
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="eight columns results-box">
+            <div class="five columns">
+                <div>
+
+                </div>
+                <div>
+
+                </div>
+            </div>
+            <div class="seven columns">
+                <h4>Bitcoin</h4>
+                <h5>BTC</h5>
+                <p>Rank: #1</p>
+                <p>Price: $42,687.99 </p>
+                <p>% Change: 0.92%</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="row cards-section">
+        <div class="six columns">
+            <h3>Top Cryptocurrencies Today:</h3>
+            <div id="topCryptos" class="row">
+                <div class ="four columns c-card">
+                    <h4>Bitcoin</h4>
+                    <h5>BTC</h5>
+                    <p>Rank: #1</p>
+                    <p>Price: $42,687.99 </p>
+                    <p>% Change: 0.92%</p>
+                </div>
+            </div>
+        </div>
+        <div class="six columns">
+            <h3>Your Recently Viewed:</h3>
+            <div>
+                <div class ="four columns c-card">
+                    <h4>Bitcoin</h4>
+                    <h5>BTC</h5>
+                    <p>Rank: #1</p>
+                    <p>Price: $42,687.99 </p>
+                    <p>% Change: 0.92%</p>
+                </div>
+            </div>
+        </div>
+    </section>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>

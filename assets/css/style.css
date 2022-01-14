@@ -1,0 +1,36 @@
+div {
+    border: solid black 1px;
+}
+
+div {
+    border: solid black 1px;
+}
+
+.header {
+    margin: 25px 0px 0px 25px;
+}
+
+.search-section {
+    border: solid blue 1px;
+}
+
+.search-box {
+    padding: 10px 5px;
+}
+
+.history-box {
+    padding-left: 10px;
+}
+
+.c-card {
+    padding: 10px 5px;
+}
+
+.cards-section {
+    margin-top: 25px;
+}
+
+.placeholder {
+    width: 240px;
+    height: 200px;
+}
