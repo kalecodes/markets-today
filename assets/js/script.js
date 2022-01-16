@@ -1,12 +1,36 @@
 var searchEl = document.getElementById("searchEl");
 var submitBtn = document.getElementById("submitBtn");
 var topCryptosEl = document.getElementById("topCryptos");
+var cryptoResultsArea = document.getElementById("search-results")
 
 
 
+var displayCrypto = function(searchData) {
+    cryptoResultsArea.textContent = "";
 
-var displayCrypto = function(data) {
+    var resultCryptoEl = document.createElement("div")
+    resultCryptoEl.setAttribute("class", "seven columns");
     
+    var coinName = document.createElement("h3");
+    coinName.textContent = searchData.data.name;
+    var coinSymbol = document.createElement("h4");
+    coinSymbol.textContent = "Coin Symbol: " + searchData.data.symbol;
+    var coinRank = document.createElement("h5");
+    coinRank.textContent = "Rank: " + searchData.data.rank;
+    var coinPrice = document.createElement("h5");
+    var formatPrice = parseFloat(searchData.data.priceUsd).toFixed(2);
+    coinPrice.textContent = "Price: $" + formatPrice;
+    var coinChange = document.createElement("h5");
+    var formatPercent = parseFloat(searchData.data.changePercent24Hr).toFixed(2)
+    coinChange.textContent = "24hr Change: " + formatPercent + "%";
+
+    resultCryptoEl.appendChild(coinName);
+    resultCryptoEl.appendChild(coinSymbol);
+    resultCryptoEl.appendChild(coinRank);
+    resultCryptoEl.appendChild(coinPrice);
+    resultCryptoEl.appendChild(coinChange);
+
+    cryptoResultsArea.appendChild(resultCryptoEl);
 }
 
 var searchCrypto = function(cryptoName) {
@@ -14,9 +38,9 @@ var searchCrypto = function(cryptoName) {
     
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
-            response.json().then(function(data) {
-                console.log(data);
-                displayCrypto(data);
+            response.json().then(function(searchData) {
+                console.log(searchData);
+                displayCrypto(searchData);
             })
         } else {
             alert("Error: Crypto Data Not Found")
@@ -28,6 +52,7 @@ var searchCrypto = function(cryptoName) {
 
 var submitHandler = function(event) {
     var cryptoName = searchEl.value.trim().toLowerCase();
+    searchEl.textContent = "";
 
     if (cryptoName) {
     searchCrypto(cryptoName);
@@ -70,8 +95,6 @@ var showTopThree = function() {
                         topCryptoCard.appendChild(topCryptoChange);
             
                     topCryptosEl.appendChild(topCryptoCard);
-
-                    console.log("Top 3 Cryptos loaded");
                 }
             }) 
         } else {
