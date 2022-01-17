@@ -1,30 +1,35 @@
+var apiKey = "474472b4-03dd-49c8-94ae-0d662fed1a8b"
+
 var searchEl = document.getElementById("searchEl");
 var submitBtn = document.getElementById("submitBtn");
 var topCryptosEl = document.getElementById("topCryptos");
 var cryptoResultsArea = document.getElementById("search-results");
+var newsResultsArea = document.getElementById("news-results")
 var recentCards = document.getElementById("recent-cards");
 var historyList = document.getElementById("historyList")
 var historyTitle = document.getElementById("historyTitle");
 var searchHistory = [];
 
-
+let headers = {
+    'Authorization': 'Bearer' + apiKey
+}
 
 var displayCrypto = function(searchData) {
     cryptoResultsArea.textContent = "";
 
     var resultCryptoEl = document.createElement("div")
-    resultCryptoEl.setAttribute("class", "seven columns");
+    // resultCryptoEl.setAttribute("class", "seven columns");
     
     var coinName = document.createElement("h3");
     coinName.textContent = searchData.data.name;
-    var coinSymbol = document.createElement("h4");
+    var coinSymbol = document.createElement("h5");
     coinSymbol.textContent = "Coin Symbol: " + searchData.data.symbol;
-    var coinRank = document.createElement("h5");
+    var coinRank = document.createElement("h6");
     coinRank.textContent = "Rank: " + searchData.data.rank;
-    var coinPrice = document.createElement("h5");
+    var coinPrice = document.createElement("h6");
     var formatPrice = parseFloat(searchData.data.priceUsd).toFixed(2);
     coinPrice.textContent = "Price: $" + formatPrice;
-    var coinChange = document.createElement("h5");
+    var coinChange = document.createElement("h6");
     var formatPercent = parseFloat(searchData.data.changePercent24Hr).toFixed(2)
     coinChange.textContent = "24hr Change: " + formatPercent + "%";
 
@@ -38,6 +43,45 @@ var displayCrypto = function(searchData) {
 }
 
 
+var displayNews = function(data) {
+    if (data.results.length > 0) {
+        newsResultsArea.textContent = "";
+        for (i = 0; i < data.results.length < 5; i ++) {
+            var articleEl = document.createElement("div");
+
+            var articleTitle = document.createElement("h6");
+            articleTitle.textContent = data.results[i].title;
+            var articleLink = document.createElement("a");
+            articleLink.setAttribute("href", data.results[i].link);
+            articleLink.textContent = "Read the full article at " + data.results[i].source_id;
+
+            articleEl.appendChild(articleTitle);
+            articleEl.appendChild(articleLink);
+
+            newsResultsArea.appendChild(articleEl);
+        }
+    }
+}
+
+var searchNews = function(cryptoName) {
+    var newsApiKey = "pub_36838563b1ae241d78d9e8f2f4e5fa9b73b4"
+    var apiUrl = "https://newsdata.io/api/1/news?apikey=" + newsApiKey + "&qInTitle=" + cryptoName + "&language=en";
+
+    fetch(apiUrl).then(function(response) {
+        if(response.ok) {
+            response.json().then(function(data) {
+                console.log(data);
+                displayNews(data);
+            })
+        } else {
+            alert("Error: Data not found")
+        }
+    }).catch(function(error) {
+        alert("Unable to connect to Newsdata.io")
+    })
+}
+
+
 var addToHistory = function(searchData) {
     if (searchHistory.length > 7) {
         searchHistory.shift();
@@ -46,7 +90,6 @@ var addToHistory = function(searchData) {
     localStorage.setItem("searches", JSON.stringify(searchHistory));
     loadSearchHistory();
 }
-
 
 var searchCrypto = function(cryptoName) {
     var apiUrl = "https://api.coincap.io/v2/assets/" + cryptoName;
@@ -66,13 +109,13 @@ var searchCrypto = function(cryptoName) {
     })
 }
 
-
 var submitHandler = function(event) {
     var cryptoName = searchEl.value.trim().toLowerCase();
     searchEl.value = "";
 
     if (cryptoName) {
     searchCrypto(cryptoName);
+    searchNews(cryptoName);
     } else {
     alert("Please enter a valid cryptocurrency name")
     }
@@ -80,7 +123,7 @@ var submitHandler = function(event) {
 
 submitBtn.addEventListener("click", submitHandler)
 
-//----------------------------------//
+//----------------------------------HISTORY AND STORAGE SECTIONS---------------------------------------------//
 
 var displayHistory = function(searchHistory) {
     for (i = 0; i < searchHistory.length; i++) {
@@ -142,7 +185,6 @@ var loadRecentCrypto = function(searchHistory) {
     }
 }
 
-
 var loadSearchHistory = function() {
     historyList.textContent = "";
     searchHistory = [];
@@ -150,13 +192,14 @@ var loadSearchHistory = function() {
     for (i = 0; i < storedHistory.length; i++) {
         searchHistory.push(storedHistory[i]);
     }
+    console.log(searchHistory);
     displayHistory(searchHistory);
     loadRecentCrypto(searchHistory);
 }
 
 document.addEventListener("load", loadSearchHistory());
 
-//--------------------------------------------------------------------//
+//-------------------------------AUTO SHOW TOP THREE---------------------------------------//
 
 var showTopThree = function() {
     var apiUrl = "https://api.coincap.io/v2/assets?limit=3";
