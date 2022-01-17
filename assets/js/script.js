@@ -1,7 +1,11 @@
 var searchEl = document.getElementById("searchEl");
 var submitBtn = document.getElementById("submitBtn");
 var topCryptosEl = document.getElementById("topCryptos");
-var cryptoResultsArea = document.getElementById("search-results")
+var cryptoResultsArea = document.getElementById("search-results");
+var recentCards = document.getElementById("recent-cards");
+var historyList = document.getElementById("historyList")
+var historyTitle = document.getElementById("historyTitle");
+var searchHistory = [];
 
 
 
@@ -33,14 +37,26 @@ var displayCrypto = function(searchData) {
     cryptoResultsArea.appendChild(resultCryptoEl);
 }
 
+
+var addToHistory = function(searchData) {
+    if (searchHistory.length > 7) {
+        searchHistory.shift();
+    }
+    searchHistory.push(searchData.data.name);
+    localStorage.setItem("searches", JSON.stringify(searchHistory));
+    loadSearchHistory();
+}
+
+
 var searchCrypto = function(cryptoName) {
     var apiUrl = "https://api.coincap.io/v2/assets/" + cryptoName;
     
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(searchData) {
-                console.log(searchData);
+                // console.log(searchData);
                 displayCrypto(searchData);
+                addToHistory(searchData);
             })
         } else {
             alert("Error: Crypto Data Not Found")
@@ -50,9 +66,10 @@ var searchCrypto = function(cryptoName) {
     })
 }
 
+
 var submitHandler = function(event) {
     var cryptoName = searchEl.value.trim().toLowerCase();
-    searchEl.textContent = "";
+    searchEl.value = "";
 
     if (cryptoName) {
     searchCrypto(cryptoName);
@@ -63,6 +80,82 @@ var submitHandler = function(event) {
 
 submitBtn.addEventListener("click", submitHandler)
 
+//----------------------------------//
+
+var displayHistory = function(searchHistory) {
+    for (i = 0; i < searchHistory.length; i++) {
+        var recentSearchEl = document.createElement("li");
+        recentSearchEl.textContent = searchHistory[i];
+        historyTitle.textContent = "Search History: "
+        historyList.prepend(recentSearchEl);
+    }
+}
+
+var displayRecentCrypto = function(searchData) {
+    var recentCardEl = document.createElement("div");
+    recentCardEl.setAttribute("class", "four columns c-card")
+    var recentCryptoName = document.createElement("h4");
+    recentCryptoName.textContent = searchData.data.name;
+    recentCardEl.appendChild(recentCryptoName);
+    var recentCryptoSymbol = document.createElement("h5");
+    recentCryptoSymbol.textContent = searchData.data.symbol;
+    recentCardEl.appendChild(recentCryptoSymbol)
+    var recentCryptoRank = document.createElement("p");
+    recentCryptoRank.textContent = "Rank: #" + searchData.data.rank;
+    recentCardEl.appendChild(recentCryptoRank);
+    var recentCryptoPrice = document.createElement("p");
+    var formatPrice = parseFloat(searchData.data.priceUsd).toFixed(2);
+    recentCryptoPrice.textContent = "Price: $" + formatPrice;
+    recentCardEl.appendChild(recentCryptoPrice);
+    var recentCryptoChange = document.createElement("p");
+    var formatPercent = parseFloat(searchData.data.changePercent24Hr).toFixed(2);
+    recentCryptoChange.textContent = "24hr Change: " + formatPercent + "%";
+    recentCardEl.appendChild(recentCryptoChange);
+
+    recentCards.prepend(recentCardEl);
+}
+
+var fetchRecentCrypto = function(cryptoName) {
+    var apiUrl = "https://api.coincap.io/v2/assets/" + cryptoName;
+        
+    fetch(apiUrl).then(function(response) {
+        if (response.ok) {
+            response.json().then(function(searchData) {
+                console.log(searchData);
+                displayRecentCrypto(searchData);
+            })
+        } else {
+            alert("Error: Crypto Data Not Found")
+        }
+    }).catch(function(error) {
+        alert("Unable to connect to API")
+    })
+}
+
+
+var loadRecentCrypto = function(searchHistory) {
+    recentCards.textContent = "";
+    for (i = 5; i < 8; i++) {
+        var cryptoName = searchHistory[i].toLowerCase();
+        console.log(cryptoName);
+        fetchRecentCrypto(cryptoName)
+    }
+}
+
+
+var loadSearchHistory = function() {
+    historyList.textContent = "";
+    searchHistory = [];
+    var storedHistory = JSON.parse(localStorage.getItem("searches"))
+    for (i = 0; i < storedHistory.length; i++) {
+        searchHistory.push(storedHistory[i]);
+    }
+    displayHistory(searchHistory);
+    loadRecentCrypto(searchHistory);
+}
+
+document.addEventListener("load", loadSearchHistory());
+
 //--------------------------------------------------------------------//
 
 var showTopThree = function() {
@@ -71,7 +164,7 @@ var showTopThree = function() {
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(responseData) {
-                console.log(responseData)
+                // console.log(responseData)
 
                 for (i =  0; i < responseData.data.length; i++) {
                     var topCryptoCard = document.createElement("div");
