@@ -10,10 +10,6 @@ var historyList = document.getElementById("historyList")
 var historyTitle = document.getElementById("historyTitle");
 var searchHistory = [];
 
-let headers = {
-    'Authorization': 'Bearer' + apiKey
-}
-
 var displayCrypto = function(searchData) {
     cryptoResultsArea.textContent = "";
 
@@ -46,7 +42,7 @@ var displayCrypto = function(searchData) {
 var displayNews = function(data) {
     if (data.results.length > 0) {
         newsResultsArea.textContent = "";
-        for (i = 0; i < data.results.length < 5; i ++) {
+        for (i = 0; i < 5; i ++) {
             var articleEl = document.createElement("div");
 
             var articleTitle = document.createElement("h6");
