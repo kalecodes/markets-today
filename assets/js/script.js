@@ -42,7 +42,7 @@ var displayCrypto = function(searchData) {
 var displayNews = function(data) {
     if (data.results.length > 0) {
         newsResultsArea.textContent = "";
-        for (i = 0; i < 5; i ++) {
+        for (i = 0; i < 5; i++) {
             var articleEl = document.createElement("div");
 
             var articleTitle = document.createElement("h6");
@@ -70,10 +70,10 @@ var searchNews = function(cryptoName) {
                 displayNews(data);
             })
         } else {
-            alert("Error: Data not found")
+            console.log("Error: Data not found")
         }
     }).catch(function(error) {
-        alert("Unable to connect to Newsdata.io")
+        console.log("Unable to connect to Newsdata.io")
     })
 }
 
@@ -89,6 +89,7 @@ var addToHistory = function(searchData) {
 
 var searchCrypto = function(cryptoName) {
     var apiUrl = "https://api.coincap.io/v2/assets/" + cryptoName;
+        console.log(apiUrl);
     
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
@@ -98,10 +99,10 @@ var searchCrypto = function(cryptoName) {
                 addToHistory(searchData);
             })
         } else {
-            alert("Error: Crypto Data Not Found")
+            console.log("Error: Crypto Data Not Found")
         }
     }).catch(function(error) {
-        alert("Unable to connect to API")
+        console.log("Unable to connect to API")
     })
 }
 
@@ -113,7 +114,7 @@ var submitHandler = function(event) {
     searchCrypto(cryptoName);
     searchNews(cryptoName);
     } else {
-    alert("Please enter a valid cryptocurrency name")
+    console.log("Please enter a valid cryptocurrency name")
     }
 }
 
@@ -133,10 +134,10 @@ var displayHistory = function(searchHistory) {
 var displayRecentCrypto = function(searchData) {
     var recentCardEl = document.createElement("div");
     recentCardEl.setAttribute("class", "four columns c-card")
-    var recentCryptoName = document.createElement("h4");
+    var recentCryptoName = document.createElement("h5");
     recentCryptoName.textContent = searchData.data.name;
     recentCardEl.appendChild(recentCryptoName);
-    var recentCryptoSymbol = document.createElement("h5");
+    var recentCryptoSymbol = document.createElement("h6");
     recentCryptoSymbol.textContent = searchData.data.symbol;
     recentCardEl.appendChild(recentCryptoSymbol)
     var recentCryptoRank = document.createElement("p");
@@ -164,10 +165,10 @@ var fetchRecentCrypto = function(cryptoName) {
                 displayRecentCrypto(searchData);
             })
         } else {
-            alert("Error: Crypto Data Not Found")
+            console.log("Error: Crypto Data Not Found")
         }
     }).catch(function(error) {
-        alert("Unable to connect to API")
+        console.log("Unable to connect to API")
     })
 }
 
@@ -208,32 +209,32 @@ var showTopThree = function() {
                 for (i =  0; i < responseData.data.length; i++) {
                     var topCryptoCard = document.createElement("div");
                     topCryptoCard.setAttribute("class", "four columns c-card")
-                    var topCryptoName = document.createElement("h4");
-                        topCryptoName.textContent = responseData.data[i].name;
-                        topCryptoCard.appendChild(topCryptoName);
-                    var topCryptoSymbol = document.createElement("h5");
-                        topCryptoSymbol.textContent = responseData.data[i].symbol;
-                        topCryptoCard.appendChild(topCryptoSymbol)
+                    var topCryptoName = document.createElement("h5");
+                    topCryptoName.textContent = responseData.data[i].name;
+                    topCryptoCard.appendChild(topCryptoName);
+                    var topCryptoSymbol = document.createElement("h6");
+                    topCryptoSymbol.textContent = responseData.data[i].symbol;
+                    topCryptoCard.appendChild(topCryptoSymbol)
                     var topCryptoRank = document.createElement("p");
-                        topCryptoRank.textContent = "Rank: #" + responseData.data[i].rank;
-                        topCryptoCard.appendChild(topCryptoRank);
+                    topCryptoRank.textContent = "Rank: #" + responseData.data[i].rank;
+                    topCryptoCard.appendChild(topCryptoRank);
                     var topCryptoPrice = document.createElement("p");
-                        var formatPrice = parseFloat(responseData.data[i].priceUsd).toFixed(2);
-                        topCryptoPrice.textContent = "Price: $" + formatPrice;
-                        topCryptoCard.appendChild(topCryptoPrice);
+                    var formatPrice = parseFloat(responseData.data[i].priceUsd).toFixed(2);
+                    topCryptoPrice.textContent = "Price: $" + formatPrice;
+                    topCryptoCard.appendChild(topCryptoPrice);
                     var topCryptoChange = document.createElement("p");
-                        var formatPercent = parseFloat(responseData.data[i].changePercent24Hr).toFixed(2);
-                        topCryptoChange.textContent = "24hr Change: " + formatPercent + "%";
-                        topCryptoCard.appendChild(topCryptoChange);
+                    var formatPercent = parseFloat(responseData.data[i].changePercent24Hr).toFixed(2);
+                    topCryptoChange.textContent = "24hr Change: " + formatPercent + "%";
+                    topCryptoCard.appendChild(topCryptoChange);
             
                     topCryptosEl.appendChild(topCryptoCard);
                 }
             }) 
         } else {
-            alert("Error: Unable to load data")
+            console.log("Error: Unable to load data")
         } 
     }).catch(function(error) {
-        alert("Unable to connect to API");
+        console.log("Unable to connect to API");
     })
 }
 
