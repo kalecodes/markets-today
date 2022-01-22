@@ -7,6 +7,8 @@ var cryptoResultsArea = document.getElementById("search-results");
 var newsResultsArea = document.getElementById("news-results")
 var recentCards = document.getElementById("recent-cards");
 var historyList = document.getElementById("historyList")
+var resultsTitle = document.getElementById("results-title")
+var newsTitle = document.getElementById("news-title")
 var historyTitle = document.getElementById("historyTitle");
 var searchHistory = [];
 
@@ -14,18 +16,18 @@ var displayCrypto = function(searchData) {
     cryptoResultsArea.textContent = "";
 
     var resultCryptoEl = document.createElement("div")
-    // resultCryptoEl.setAttribute("class", "seven columns");
+    resultCryptoEl.setAttribute("class", "col s12 center");
     
     var coinName = document.createElement("h3");
     coinName.textContent = searchData.data.name;
-    var coinSymbol = document.createElement("h5");
+    var coinSymbol = document.createElement("h4");
     coinSymbol.textContent = "Coin Symbol: " + searchData.data.symbol;
-    var coinRank = document.createElement("h6");
+    var coinRank = document.createElement("h5");
     coinRank.textContent = "Rank: " + searchData.data.rank;
-    var coinPrice = document.createElement("h6");
+    var coinPrice = document.createElement("h5");
     var formatPrice = parseFloat(searchData.data.priceUsd).toFixed(2);
     coinPrice.textContent = "Price: $" + formatPrice;
-    var coinChange = document.createElement("h6");
+    var coinChange = document.createElement("h5");
     var formatPercent = parseFloat(searchData.data.changePercent24Hr).toFixed(2)
     coinChange.textContent = "24hr Change: " + formatPercent + "%";
 
@@ -35,6 +37,7 @@ var displayCrypto = function(searchData) {
     resultCryptoEl.appendChild(coinPrice);
     resultCryptoEl.appendChild(coinChange);
 
+    resultsTitle.textContent = "Results:"
     cryptoResultsArea.appendChild(resultCryptoEl);
 }
 
@@ -54,6 +57,7 @@ var displayNews = function(data) {
             articleEl.appendChild(articleTitle);
             articleEl.appendChild(articleLink);
 
+            newsTitle.textContent = "Recent News:"
             newsResultsArea.appendChild(articleEl);
         }
     }
@@ -79,7 +83,7 @@ var searchNews = function(cryptoName) {
 
 
 var addToHistory = function(searchData) {
-    if (searchHistory.length > 7) {
+    if (searchHistory.length > 5) {
         searchHistory.shift();
     }
     searchHistory.push(searchData.data.name);
@@ -103,28 +107,32 @@ var searchCrypto = function(cryptoName) {
         }
     }).catch(function(error) {
         console.log("Unable to connect to API")
+        searchCrypto(cryptoName)
     })
 }
 
-var submitHandler = function(event) {
+$("#submitBtn").click(function() {
+    event.preventDefault();
     var cryptoName = searchEl.value.trim().toLowerCase();
     searchEl.value = "";
+    newsTitle.textContent = "";
+    resultsTitle.textContent = "";
 
     if (cryptoName) {
-    searchCrypto(cryptoName);
-    searchNews(cryptoName);
+        console.log(cryptoName);
+        searchCrypto(cryptoName);
+        searchNews(cryptoName);
     } else {
-    console.log("Please enter a valid cryptocurrency name")
+        console.log("Please enter a valid cryptocurrency name")
     }
-}
-
-submitBtn.addEventListener("click", submitHandler)
+})
 
 //----------------------------------HISTORY AND STORAGE SECTIONS---------------------------------------------//
 
 var displayHistory = function(searchHistory) {
     for (i = 0; i < searchHistory.length; i++) {
-        var recentSearchEl = document.createElement("li");
+        var recentSearchEl = document.createElement("div");
+        recentSearchEl.setAttribute("class", "col s6 m4 l2")
         recentSearchEl.textContent = searchHistory[i];
         historyTitle.textContent = "Search History: "
         historyList.prepend(recentSearchEl);
@@ -133,7 +141,7 @@ var displayHistory = function(searchHistory) {
 
 var displayRecentCrypto = function(searchData) {
     var recentCardEl = document.createElement("div");
-    recentCardEl.setAttribute("class", "four columns c-card")
+    recentCardEl.setAttribute("class", "center col s12 m4")
     var recentCryptoName = document.createElement("h5");
     recentCryptoName.textContent = searchData.data.name;
     recentCardEl.appendChild(recentCryptoName);
@@ -161,7 +169,7 @@ var fetchRecentCrypto = function(cryptoName) {
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(searchData) {
-                console.log(searchData);
+                // console.log(searchData);
                 displayRecentCrypto(searchData);
             })
         } else {
@@ -169,13 +177,14 @@ var fetchRecentCrypto = function(cryptoName) {
         }
     }).catch(function(error) {
         console.log("Unable to connect to API")
+        fetchRecentCrypto(cryptoName);
     })
 }
 
 
 var loadRecentCrypto = function(searchHistory) {
     recentCards.textContent = "";
-    for (i = 5; i < 8; i++) {
+    for (i = 3; i < 6; i++) {
         var cryptoName = searchHistory[i].toLowerCase();
         console.log(cryptoName);
         fetchRecentCrypto(cryptoName)
@@ -183,17 +192,20 @@ var loadRecentCrypto = function(searchHistory) {
 }
 
 var loadSearchHistory = function() {
-    historyList.textContent = "";
-    searchHistory = [];
-    var storedHistory = JSON.parse(localStorage.getItem("searches"))
-    for (i = 0; i < storedHistory.length; i++) {
-        searchHistory.push(storedHistory[i]);
+    if (localStorage.length > 0) {
+        historyList.textContent = "";
+        searchHistory = [];
+        var storedHistory = JSON.parse(localStorage.getItem("searches"))
+        for (i = 0; i < storedHistory.length; i++) {
+            searchHistory.push(storedHistory[i]);
+        }
+        console.log(searchHistory);
+        displayHistory(searchHistory);
+        loadRecentCrypto(searchHistory);
+    } else {
+        console.log("No history to load")
     }
-    console.log(searchHistory);
-    displayHistory(searchHistory);
-    loadRecentCrypto(searchHistory);
 }
-
 document.addEventListener("load", loadSearchHistory());
 
 //-------------------------------AUTO SHOW TOP THREE---------------------------------------//
@@ -208,7 +220,7 @@ var showTopThree = function() {
 
                 for (i =  0; i < responseData.data.length; i++) {
                     var topCryptoCard = document.createElement("div");
-                    topCryptoCard.setAttribute("class", "four columns c-card")
+                    topCryptoCard.setAttribute("class", "center col s12 m4")
                     var topCryptoName = document.createElement("h5");
                     topCryptoName.textContent = responseData.data[i].name;
                     topCryptoCard.appendChild(topCryptoName);
@@ -234,7 +246,8 @@ var showTopThree = function() {
             console.log("Error: Unable to load data")
         } 
     }).catch(function(error) {
-        console.log("Unable to connect to API");
+        console.log(error);
+        showTopThree();
     })
 }
 
