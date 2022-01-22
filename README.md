@@ -32,15 +32,15 @@ SO THAT I can make informed investment decisions.
 
 ## Screenshots
 
-![](./assets/images/ct-ss-1)
-![](./assets/images/ct-ss-2)
+![](./assets/images/ct-ss-1.png)
+![](./assets/images/ct-ss-2.png)
 
 ## Deployed Application
 
 This application is deployed using GitHub Pages and can be accessed via this link: https://kalecodes.github.io/markets-today/ 
 
-## Credit/Resources
-Contributors: 
+## Credit/Resources:
+### Contributors: 
     * Kalen Wiley
     * Victor Lindbloom
     * Shivan Shah
