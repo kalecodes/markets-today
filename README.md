@@ -32,20 +32,21 @@ SO THAT I can make informed investment decisions.
 
 ## Screenshots
 
-![](./assets/images/ct-ss-1)
-![](./assets/images/ct-ss-1)
+![](./assets/images/ct-ss-1.png)
+![](./assets/images/ct-ss-2.png)
+
 
 ## Deployed Application
 
 This application is deployed using GitHub Pages and can be accessed via this link: https://kalecodes.github.io/markets-today/ 
 
-## Credit/Resources
-Contributors: 
+## Credit/Resources:
+### Contributors: 
     * Kalen Wiley
     * Victor Lindbloom
     * Shivan Shah
 
-Resources: 
+### Resources: 
     * Materialize CSS Framework (http://archives.materializecss.com/0.100.2/)(see assets folder for license info)
     * CainCap API (https://docs.coincap.io/)
     * Newsdata.io API  (https://newsdata.io/docs)
