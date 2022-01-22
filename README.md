@@ -1,3 +1,4 @@
+
 # Crypto Today
 
 ## Description:
@@ -32,7 +33,7 @@ SO THAT I can make informed investment decisions.
 ## Screenshots
 
 ![](./assets/images/ct-ss-1)
-![](./assets/images/ct-ss-1)
+![](./assets/images/ct-ss-2)
 
 ## Deployed Application
 
