@@ -45,7 +45,7 @@ This application is deployed using GitHub Pages and can be accessed via this lin
     * Victor Lindbloom
     * Shivan Shah
 
-Resources: 
+### Resources: 
     * Materialize CSS Framework (http://archives.materializecss.com/0.100.2/)(see assets folder for license info)
     * CainCap API (https://docs.coincap.io/)
     * Newsdata.io API  (https://newsdata.io/docs)
