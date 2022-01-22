@@ -35,6 +35,7 @@ SO THAT I can make informed investment decisions.
 ![](./assets/images/ct-ss-1.png)
 ![](./assets/images/ct-ss-2.png)
 
+
 ## Deployed Application
 
 This application is deployed using GitHub Pages and can be accessed via this link: https://kalecodes.github.io/markets-today/ 
