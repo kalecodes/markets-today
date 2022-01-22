@@ -1,45 +1,51 @@
-# markets-today
 
-## description
-A simple application aimed to help first time crypto investors gain more information before investing their money.
+# Crypto Today
 
-## purpose
+## Description:
 
-AS A first time potential crypto investor
-I WANT to compare crypto currency data to equities
-SO THAT I can make informed investment decisions
+A simple cryptocurrency data dashboard aimed to help first time crypto investors gain more information before investing their money.
 
-## application details
+## Purpose/User Story:
 
-GIVEN a finanical dashboard with form inputs
-WHEN I search a crypto
-THEN it is added to my search history
-WHEN I open the page
-THEN my seach history loads
-WHEN I open the application
-THEN I can see a list of my recent searches
-WHEN I search a crypto name
-THEN I am presented with data for the crypto
+AS A first time potential cryptocurrency investor
+I WANT to compare multiple cryptocurrencies
+SO THAT I can make informed investment decisions. 
 
-### features
+## Application Details:
 
-MVP Requirements:
-	-Use a CSS framework other than Bootstrap
-	-Be deployed to GIthub Pages
-	**-Be interactive (accept and respond to user input)**
-	**-Use at least two server-side APIs**
-	-NO ALERTS, CONFIRMS, or PROMPTS (use modals instead)
-	**-Use client-side storage and store persistnent data**
-	-Be responsive
-	-Have polished UI
-	-clean repository
-	-quality readME
+### Features:
 
-### technologies used
+* Top three ranked cryptocurrencies' data displays on page load
+* User's six most recent searches are remembered and displayed using local storage
+* User's three most recent searches data are displayed on the page
+* Searching a coin name displays data for the cryptocurrency and related recent news headlines
+* Repsonsive layout adjusts to screen size and maintains clean UI
 
-## screenshot
+### Technologies:
 
-## deployed application
+* HTML
+* Materialize CSS Framework
+* JavaScript
+* CoinCap API
+* Newsdata.io API
+* Local Storage API
 
-## credit/resources
+## Screenshots
 
+![](./assets/images/ct-ss-1.png)
+![](./assets/images/ct-ss-2.png)
+
+## Deployed Application
+
+This application is deployed using GitHub Pages and can be accessed via this link: https://kalecodes.github.io/markets-today/ 
+
+## Credit/Resources:
+### Contributors: 
+    * Kalen Wiley
+    * Victor Lindbloom
+    * Shivan Shah
+
+Resources: 
+    * Materialize CSS Framework (http://archives.materializecss.com/0.100.2/)(see assets folder for license info)
+    * CainCap API (https://docs.coincap.io/)
+    * Newsdata.io API  (https://newsdata.io/docs)
